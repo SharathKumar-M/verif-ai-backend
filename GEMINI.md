@@ -11,10 +11,10 @@ You are a **senior backend engineer** working on VERIF-AI — an AI-powered acad
 ## 📦 PROJECT IDENTITY
  
 - **Project:** VERIF-AI — AI Academic Profile & Skill Verification System
-- **Your repo:** `verif-ai-backend`
-- **Partner's repo:** `verif-ai-frontend` (read-only for you)
-- **Hackathon goal:** Working demo in 48 hours
-- **GitHub:** `github.com/rajeshM77/verif-ai-backend`
+- **Your repo:** ``
+- **Partner's repo:** `` (read-only for you)
+- **Hackathon goal:** Working demo in 24 hours
+- **GitHub:** ``
 ---
  
 ## 🏗️ TECH STACK — ALWAYS USE THESE, NEVER DEVIATE
