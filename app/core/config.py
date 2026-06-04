@@ -5,42 +5,39 @@ import json
 class Settings(BaseSettings):
     # MongoDB
     MONGODB_URI: str
-    MONGODB_DB_NAME: str = "verifai"
+    MONGODB_DB_NAME: str = "verif-ai"
 
     # Firebase
     FIREBASE_PROJECT_ID: str
-    FIREBASE_CREDENTIALS_JSON: str  # Expected as a JSON string
+    FIREBASE_CREDENTIALS_JSON: str
+    FIREBASE_API_KEY: str # Web API Key for REST testing
 
     # Google AI
     GEMINI_API_KEY: str
-    GOOGLE_API_KEY: Optional[str] = None
+    GOOGLE_API_KEY: str
 
-    # LangSmith
-    LANGCHAIN_TRACING_V2: bool = False
+    # LangChain / LangSmith
+    LANGCHAIN_TRACING_V2: str = "false"
     LANGCHAIN_API_KEY: Optional[str] = None
-    LANGCHAIN_PROJECT: str = "verif-ai-hackathon"
+    LANGCHAIN_PROJECT: str = "verif-ai-backend"
 
     # External
     GITHUB_TOKEN: str
-    BRAVE_API_KEY: Optional[str] = None
+    BRAVE_API_KEY: str
 
     # App
-    ALLOWED_ORIGINS: str = "http://localhost:3000,https://verif-ai-frontend.vercel.app"
+    ALLOWED_ORIGINS: str = "http://localhost:3000"
     PORT: int = 8000
     ENVIRONMENT: str = "development"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     @property
-    def firebase_creds(self) -> dict:
-        try:
-            return json.loads(self.FIREBASE_CREDENTIALS_JSON)
-        except json.JSONDecodeError:
-            # Fallback if it's already a dict or invalid
-            return {}
-    
-    @property
     def origins_list(self) -> List[str]:
         return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
+
+    @property
+    def firebase_creds_dict(self) -> dict:
+        return json.loads(self.FIREBASE_CREDENTIALS_JSON)
 
 settings = Settings()

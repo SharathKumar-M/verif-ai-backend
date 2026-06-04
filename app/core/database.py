@@ -1,35 +1,29 @@
-from motor.motor_asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorGridFSBucket
 from beanie import init_beanie
 from app.core.config import settings
-import motor.motor_asyncio
 
-class Database:
-    client: AsyncIOMotorClient = None
-    db = None
-    resumes_bucket = None
-    certificates_bucket = None
+motor_client: AsyncIOMotorClient = None
+motor_db: AsyncIOMotorDatabase = None
 
-db_instance = Database()
-
-async def init_db():
-    db_instance.client = AsyncIOMotorClient(settings.MONGODB_URI)
-    db_instance.db = db_instance.client[settings.MONGODB_DB_NAME]
+async def init_mongodb():
+    global motor_client, motor_db
+    motor_client = AsyncIOMotorClient(settings.MONGODB_URI)
+    motor_db = motor_client[settings.MONGODB_DB_NAME]
     
-    # GridFS Buckets for binary storage
-    db_instance.resumes_bucket = motor.motor_asyncio.AsyncIOMotorGridFSBucket(
-        db_instance.db, bucket_name="resumes"
-    )
-    db_instance.certificates_bucket = motor.motor_asyncio.AsyncIOMotorGridFSBucket(
-        db_instance.db, bucket_name="certificates"
-    )
-    
-    # Initialize Beanie with models (to be populated)
+    # Initialize Beanie with models
+    from app.models.user import User
     await init_beanie(
-        database=db_instance.db,
-        document_models=[]
+        database=motor_db,
+        document_models=[User]
     )
-    print(f"Connected to MongoDB: {settings.MONGODB_DB_NAME}")
+    print(f"✅ Connected to MongoDB: {settings.MONGODB_DB_NAME}")
 
-async def close_db():
-    if db_instance.client:
-        db_instance.client.close()
+async def close_mongodb():
+    global motor_client
+    if motor_client:
+        motor_client.close()
+        print("🔌 MongoDB connection closed")
+
+def get_gridfs(bucket_name: str) -> AsyncIOMotorGridFSBucket:
+    """Returns a GridFS bucket instance (resumes or certificates)"""
+    return AsyncIOMotorGridFSBucket(motor_db, bucket_name=bucket_name)

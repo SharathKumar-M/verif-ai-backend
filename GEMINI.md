@@ -398,10 +398,10 @@ services:
 - [x] `contracts/CONTRACT.md` (initial empty shell)
 
 ### Phase 1: Auth
-- [ ] `models/user.py`
-- [ ] `schemas/auth.py`
-- [ ] `api/v1/auth.py`
-- [ ] Bruno: auth collection created
+- [x] `models/user.py`
+- [x] `schemas/auth.py`
+- [x] `api/v1/auth.py`
+- [x] Bruno: auth collection created
 
 ### Phase 2: File Upload
 - [ ] `models/document.py`
