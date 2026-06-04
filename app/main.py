@@ -1,5 +1,7 @@
 import logging
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import firebase_admin
@@ -27,6 +29,44 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    """
+    Handle 422 errors and return in standard project format.
+    Ensures detail is JSON serializable.
+    """
+    errors = []
+    for error in exc.errors():
+        # Manually build a clean, serializable error object
+        clean_error = {
+            "loc": list(error.get("loc", [])),
+            "msg": str(error.get("msg", "")),
+            "type": str(error.get("type", ""))
+        }
+        
+        if "input" in error:
+            # Crucial: UploadFile or other objects must be stringified
+            clean_error["input"] = str(error["input"])
+            
+        if "ctx" in error:
+            # Crucial: Context objects like ValueErrors must be stringified
+            ctx = error["ctx"]
+            if isinstance(ctx, dict):
+                clean_error["ctx"] = {k: str(v) for k, v in ctx.items()}
+            else:
+                clean_error["ctx"] = str(ctx)
+                
+        errors.append(clean_error)
+
+    return JSONResponse(
+        status_code=422,
+        content={
+            "success": False,
+            "error": "Validation Error",
+            "detail": errors
+        }
+    )
 
 # CORS configuration
 app.add_middleware(

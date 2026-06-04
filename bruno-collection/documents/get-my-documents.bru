@@ -1,0 +1,21 @@
+meta {
+  name: Get My Documents
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/documents/my
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{firebaseToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data: isArray 
+}

@@ -1,48 +1,60 @@
-# VERIF-AI Auth Testing Guide (Bruno)
+# VERIF-AI API Testing with Bruno
 
-Follow these steps to verify the full authentication and role-based access control (RBAC) flow.
+## 🔴 CRITICAL: Fixing the "422 Unprocessable Content" Error
+The 422 error happens because of a specific setting in Bruno. 
 
-## Step 0: Configure Bruno Environment
-1. Open Bruno.
-2. Go to **Environments** (top right).
-3. Select or create an environment (e.g., `Local`).
-4. Add these variables:
-   - `baseUrl`: `http://localhost:8000`
-   - `firebaseApiKey`: `[PASTE_YOUR_WEB_API_KEY]` 
-     *(Find this in Firebase Console > Project Settings > General > Web API Key)*
-   - `firebaseToken`: (Leave empty)
-   - `testUid`: (Leave empty)
+### How to configure the "Body" tab correctly:
+1.  Set body to **Multipart Form**.
+2.  **Field 1 (type):**
+    *   Key: `type`
+    *   Value: `resume` (Type this manually)
+    *   **Type:** Ensure the dropdown on the far right of this row says **Text**.
+3.  **Field 2 (file):**
+    *   Key: `file`
+    *   Value: Click **Choose File** and pick `resume.pdf`.
+    *   **Type:** Click the dropdown on the far right of this row and change it from "Text" to **File**.
 
-## Step 1: Register or Login
-Open the **Firebase-Auth** or **auth** folder.
+**The error `Input should be a valid string` for the field `type` means you accidentally clicked "Choose File" on the `type` row instead of the `file` row.**
 
-1.  **Backend Register** (`POST /api/v1/auth/register`):
-    - **Recommended for testing**.
-    - Registers you in Firebase AND Syncs with MongoDB/Firestore in one click.
-    - Sets your `role` in Firebase Custom Claims.
-    - **Note**: Choose `student` or `recruiter` in the request body.
+---
 
-## Step 2: Role-Based Access Control (RBAC) Testing
+## Prerequisites
+1. Install [Bruno](https://usebruno.com/)
+2. Open Bruno and click **Open Collection**
+3. Select the `bruno-collection/` folder in this repository.
 
-### Testing "Recruiters Only" Restriction
-1.  **Register as a Student**: Use `Backend Register` with `"role": "student"`.
-2.  **Try Update Role**: Run `Update Role` in the `auth` folder.
-    - **Expected Result**: `403 Forbidden` (Only recruiters can update roles).
-3.  **Register as a Recruiter**: Use `Backend Register` with `"role": "recruiter"`.
-4.  **Try Update Role**: Run `Update Role`.
-    - **Expected Result**: `200 OK`.
+## Step-by-Step Testing
 
-### ⚠️ IMPORTANT: Token Refresh
-Firebase Custom Claims (roles) are baked into the ID Token (JWT). If a role is updated:
-1. The *old* token still has the *old* role.
-2. The user must **Login again** in Bruno to get a fresh `firebaseToken` with the new role.
-3. Our `Backend Register` endpoint sets the claim *before* returning the token, so it works immediately.
+### 1. Setup Environment
+- Click the environment selector in the top right (default is "No Environment").
+- Select **Create Environment** and name it `Local`.
+- Add the following variables:
+  - `baseUrl`: `http://localhost:8000`
+  - `firebaseToken`: (Get this from the `/register` or `/login` response)
 
-## Step 3: Verify & Update
-1.  **Get Me**: Verifies the backend can read your profile using the token.
-2.  **Auth Health**: Check if MongoDB and Firebase are connected.
+### 2. Authentication (Register/Login)
+- Go to `auth/register.bru` or `auth/login.bru`.
+- Run the request.
+- Copy the `idToken` from the response (`data.idToken`).
+- Update your `Local` environment's `firebaseToken` with this value.
 
-## Troubleshooting
-- **401 Unauthorized**: Token expired. Run **Login** or **Backend Register** again.
-- **403 Forbidden**: Either your UID doesn't match the body, or you are a `student` trying to access a `recruiter` endpoint.
-- **500 Internal Server Error**: Check the backend logs. (Commonly caused by invalid `FIREBASE_API_KEY` or `FIREBASE_CREDENTIALS_JSON`).
+### 3. Uploading Documents
+- Go to `documents/upload-resume.bru`.
+- Ensure the `file` field is set to **File** type and a file is selected.
+- Ensure the `type` field is set to **Text** type with value `resume`.
+- Click **Send**.
+
+### 4. Submitting GitHub URL
+- Go to `documents/submit-github.bru`.
+- Ensure the `github_url` in the JSON body is correct.
+- Click **Send**.
+
+### 5. Verify Uploads
+- Go to `documents/get-my-documents.bru`.
+- Click **Send**.
+- You should see a list of all your uploaded files and GitHub data.
+
+## Common Issues
+- **422 Unprocessable Entity:** Usually means the `file` or `type` field name is wrong in the body. Check that you used `type` and `file` as the keys.
+- **401 Unauthorized:** Your `firebaseToken` has expired. Re-login and update the token.
+- **403 Forbidden:** Ensure you have the `student` role.

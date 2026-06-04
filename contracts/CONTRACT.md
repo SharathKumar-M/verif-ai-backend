@@ -170,4 +170,91 @@
     }
     ```
 
+### Documents
+- **POST** `/api/v1/documents/upload`
+  - Description: Upload a resume or one/more certificate files (max 10MB each). Validates magic bytes (PDF, JPEG, PNG, DOCX, DOC). Stores in GridFS.
+  - Headers: `Authorization: Bearer <firebase_id_token>` (Student only)
+  - Request Body (Multipart/Form):
+    - `type`: "resume" | "certificate"
+    - `files`: List[UploadFile] (Use key 'files' or repeat key 'files' for multiple)
+  - Response:
+    ```json
+    {
+      "success": true,
+      "message": "X file(s) processed successfully",
+      "data": [
+        {
+          "document_id": "string",
+          "type": "resume | certificate",
+          "hash_sha256": "string",
+          "status": "pending",
+          "filename": "string"
+        }
+      ]
+    }
+    ```
+
+- **GET** `/api/v1/documents/readiness`
+  - Description: Checks if the student has met the 3/3 requirement (Resume, at least one Certificate, and GitHub URL) required to start analysis.
+  - Headers: `Authorization: Bearer <firebase_id_token>` (Student only)
+  - Response:
+    ```json
+    {
+      "success": true,
+      "message": "Readiness status retrieved",
+      "data": {
+        "has_resume": boolean,
+        "has_certificate": boolean,
+        "has_github": boolean,
+        "is_ready": boolean,
+        "missing": ["string"]
+      }
+    }
+    ```
+
+- **POST** `/api/v1/documents/github`
+  - Description: Submit a GitHub profile URL for analysis.
+  - Headers: `Authorization: Bearer <firebase_id_token>` (Student only)
+  - Request Body:
+    ```json
+    {
+      "github_url": "https://github.com/username"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "success": true,
+      "message": "GitHub URL submitted successfully",
+      "data": {
+        "document_id": "string",
+        "type": "github",
+        "hash_sha256": "string",
+        "status": "pending",
+        "github_url": "string"
+      }
+    }
+    ```
+
+- **GET** `/api/v1/documents/my`
+  - Description: List all uploaded documents and GitHub URL for the current student.
+  - Headers: `Authorization: Bearer <firebase_id_token>` (Student only)
+  - Response:
+    ```json
+    {
+      "success": true,
+      "message": "Documents retrieved successfully",
+      "data": [
+        {
+          "document_id": "string",
+          "type": "resume | certificate | github",
+          "hash_sha256": "string",
+          "status": "pending | analyzing | done | failed",
+          "filename": "string (optional)",
+          "github_url": "string (optional)"
+        }
+      ]
+    }
+    ```
+
 ---

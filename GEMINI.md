@@ -404,10 +404,11 @@ services:
 - [x] Bruno: auth collection created
 
 ### Phase 2: File Upload
-- [ ] `models/document.py`
-- [ ] `schemas/document.py`
-- [ ] `api/v1/documents.py`
-- [ ] Bruno: documents collection created
+- [x] `models/document.py`
+- [x] `schemas/document.py`
+- [x] `api/v1/documents.py`
+- [x] Bruno: documents collection created
+
 
 ### Phase 3: LangGraph Agents
 - [ ] `services/graph/state.py`
@@ -442,4 +443,6 @@ services:
 - [ ] `render.yaml` + deployed to Render
 - [ ] `README.md` updated
 
-**contracts/CONTRACT.md last updated:** Thursday, 4 June 2026
+**contracts/CONTRACT.md last updated:** Friday, 5 June 2026 (Multi-file upload + expanded formats + readiness check)
+---
+
