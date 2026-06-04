@@ -419,7 +419,7 @@ services:
 - [x] `services/tools/web_tools.py`
 - [ ] `services/graph/supervisor.py`
 - [x] `services/graph/resume_node.py`
-- [ ] `services/graph/certificate_node.py`
+- [x] `services/graph/certificate_node.py`
 - [ ] `services/graph/github_node.py`
 - [ ] `services/graph/cross_reference.py`
 - [ ] `services/graph/final_decision.py`
@@ -444,6 +444,6 @@ services:
 - [ ] `render.yaml` + deployed to Render
 - [ ] `README.md` updated
 
-**contracts/CONTRACT.md last updated:** Friday, 5 June 2026 (Phase 3.2 Resume Agent Node implemented)
+**contracts/CONTRACT.md last updated:** Friday, 5 June 2026 (Phase 3.3 Certificate Agent Node implemented)
 ---
 
