@@ -11,10 +11,10 @@ async def init_mongodb():
     motor_db = motor_client[settings.MONGODB_DB_NAME]
     
     # Initialize Beanie with models
-    # Note: Models will be added here in Phase 2
+    from app.models.user import User
     await init_beanie(
         database=motor_db,
-        document_models=[]
+        document_models=[User]
     )
     print(f"✅ Connected to MongoDB: {settings.MONGODB_DB_NAME}")
 

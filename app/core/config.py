@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     # Firebase
     FIREBASE_PROJECT_ID: str
     FIREBASE_CREDENTIALS_JSON: str
+    FIREBASE_API_KEY: str # Web API Key for REST testing
 
     # Google AI
     GEMINI_API_KEY: str

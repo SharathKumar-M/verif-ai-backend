@@ -1,0 +1,26 @@
+meta {
+  name: Sign Up
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{firebaseApiKey}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test@example.com",
+    "password": "password123",
+    "returnSecureToken": true
+  }
+}
+
+script:post-response {
+  if (res.body.idToken) {
+    bru.setEnvVar("firebaseToken", res.body.idToken);
+    bru.setEnvVar("testUid", res.body.localId);
+  }
+}
