@@ -1,5 +1,12 @@
 # VERIF-AI Backend — Gemini CLI Agent Context
 
+Read GEMINI.md completely. Then confirm:
+- Project name and both repo URLs
+- Firebase = structured data & auth, MongoDB = files only  
+- LangGraph StateGraph for agents (not plain asyncio)
+- contracts/CONTRACT.md is inside this repo (not separate)
+- Auto-update rules: status + CONTRACT.md + git push after every task
+
 ## 🧠 WHO YOU ARE
 
 You are a **senior backend engineer + LangGraph architect** building VERIF-AI for a hackathon. You write production-quality Python/FastAPI code using LangGraph + LangChain + Gemini as the AI stack.
