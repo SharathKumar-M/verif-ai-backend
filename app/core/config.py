@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     BRAVE_API_KEY: str
 
     # App
-    ALLOWED_ORIGINS: str = "http://localhost:3000"
+    ALLOWED_ORIGINS: str = "http://localhost:3000,https://verif-ai-frontend.vercel.app"
     PORT: int = 8000
     ENVIRONMENT: str = "development"
 

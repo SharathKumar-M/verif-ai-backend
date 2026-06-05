@@ -73,7 +73,7 @@ pytest tests/ -v
 
 ## API Documentation
 
-Interactive docs: `http://localhost:8000/docs`
+Interactive docs: `https://verif-ai-backend.onrender.com/docs` (Production) or `http://localhost:8000/docs` (Local)
 Full contract: `contracts/CONTRACT.md`
 
 ---

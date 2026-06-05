@@ -439,12 +439,12 @@ services:
 - [x] Bruno: profile + discover collections created
 
 ### Phase 5: Fake Data + Tests + Deploy
-- [ ] `scripts/seed_fake_data.py` (5 students + 2 recruiters + companies)
-- [ ] `tests/conftest.py`
-- [ ] All test files
-- [ ] `render.yaml` + deployed to Render
-- [ ] `README.md` updated
+- [x] `scripts/seed_fake_data.py` (5 students + 2 recruiters + companies)
+- [x] `tests/conftest.py`
+- [x] All test files
+- [x] `render.yaml` + deployed to Render
+- [x] `README.md` updated
 
-**contracts/CONTRACT.md last updated:** Friday, 5 June 2026 (Phase 4.1: Profile + Discovery Implementation)
+**contracts/CONTRACT.md last updated:** Saturday, 6 June 2026 (Phase 5: Production Deployment)
 ---
 
