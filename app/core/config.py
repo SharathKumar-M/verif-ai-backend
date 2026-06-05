@@ -38,6 +38,22 @@ class Settings(BaseSettings):
 
     @property
     def firebase_creds_dict(self) -> dict:
-        return json.loads(self.FIREBASE_CREDENTIALS_JSON)
+        try:
+            # Handle potential whitespace or surrounding quotes from env vars
+            creds_str = self.FIREBASE_CREDENTIALS_JSON.strip()
+            if creds_str.startswith("'") and creds_str.endswith("'"):
+                creds_str = creds_str[1:-1]
+            if creds_str.startswith('"') and creds_str.endswith('"'):
+                creds_str = creds_str[1:-1]
+            
+            return json.loads(creds_str)
+        except json.JSONDecodeError as e:
+            # Log helpful info without leaking the full secret
+            print(f"❌ Failed to parse FIREBASE_CREDENTIALS_JSON: {str(e)}")
+            print(f"Length of string: {len(self.FIREBASE_CREDENTIALS_JSON)}")
+            if len(self.FIREBASE_CREDENTIALS_JSON) > 20:
+                print(f"Starts with: {self.FIREBASE_CREDENTIALS_JSON[:20]}...")
+                print(f"Ends with: ...{self.FIREBASE_CREDENTIALS_JSON[-20:]}")
+            raise ValueError(f"Invalid FIREBASE_CREDENTIALS_JSON format: {str(e)}")
 
 settings = Settings()
