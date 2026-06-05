@@ -1,4 +1,4 @@
-from typing import TypedDict, List, Optional, Annotated, Literal
+from typing import TypedDict, List, Optional, Annotated, Literal, Dict
 import operator
 from pydantic import BaseModel, Field
 from datetime import datetime
@@ -60,7 +60,7 @@ class VerificationState(TypedDict):
     resume_result: Optional[dict]
     cert_result: Optional[dict]
     github_result: Optional[dict]
-    cross_ref_findings: Optional[List]
+    cross_ref_findings: Optional[List[str]]
     research_logs: Annotated[List[dict], operator.add]   # append-only
     flags: Annotated[List[dict], operator.add]           # append-only
     completed_agents: Annotated[List[str], operator.add] # append-only

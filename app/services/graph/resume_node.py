@@ -28,7 +28,7 @@ async def resume_agent_node(state: VerificationState) -> dict:
             return {"error": "No resume document ID provided in state"}
 
         # 1 & 2. Extract Text
-        resume_text = await extract_pdf_text.invoke(resume_doc_id)
+        resume_text = await extract_pdf_text.ainvoke({"gridfs_doc_id": resume_doc_id, "bucket_name": "resumes"})
         if resume_text.startswith("Error"):
             raise Exception(resume_text)
 

@@ -5,18 +5,18 @@ meta {
 }
 
 post {
-  url: {{base_url}}/api/v1/analysis/start
+  url: {{baseUrl}}/api/v1/analysis/start
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: {{firebase_token}}
+  token: {{firebaseToken}}
 }
 
 body:json {
   {
-    "student_uid": "{{student_uid}}",
+    "student_uid": "{{testUid}}",
     "resume_document_id": "YOUR_RESUME_ID",
     "cert_doc_ids": ["CERT_ID_1"],
     "github_url": "https://github.com/octocat"

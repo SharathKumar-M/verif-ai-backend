@@ -1,0 +1,23 @@
+meta {
+  name: Search Profiles
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discover/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{firebaseToken}}
+}
+
+body:json {
+  {
+    "skills": ["Python"],
+    "min_trust_score": 0.0,
+    "limit": 10
+  }
+}

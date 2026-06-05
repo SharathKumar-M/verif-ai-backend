@@ -43,8 +43,8 @@ async def analyze_single_certificate(doc_id: str, student_uid: str) -> CertAgent
         
         if is_pdf:
             # 3. PDF Logic
-            metadata = await extract_pdf_metadata.invoke(doc_id)
-            text = await extract_pdf_text.invoke(doc_id)
+            metadata = await extract_pdf_metadata.ainvoke({"gridfs_doc_id": doc_id, "bucket_name": "certificates"})
+            text = await extract_pdf_text.ainvoke({"gridfs_doc_id": doc_id, "bucket_name": "certificates"})
             
             prompt = f"""
             ANALYZE THIS PDF CERTIFICATE:
@@ -67,7 +67,7 @@ async def analyze_single_certificate(doc_id: str, student_uid: str) -> CertAgent
         elif is_jpeg or is_png:
             # 4. Image Logic
             ela_score = error_level_analysis(file_bytes)
-            ocr_text = await ocr_extract_text.invoke(doc_id)
+            ocr_text = await ocr_extract_text.ainvoke({"gridfs_doc_id": doc_id, "bucket_name": "certificates"})
             
             # Base64 encode for vision
             img_b64 = base64.b64encode(file_bytes).decode('utf-8')

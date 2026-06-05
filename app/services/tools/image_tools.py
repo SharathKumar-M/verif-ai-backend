@@ -44,14 +44,15 @@ def error_level_analysis(image_bytes: bytes, quality: int = 95) -> float:
     return statistics.stdev(pixel_values)
 
 @tool
-async def ocr_extract_text(gridfs_doc_id: str) -> str:
+async def ocr_extract_text(gridfs_doc_id: str, bucket_name: str = "certificates") -> str:
     """
     Extracts text from an image (certificate) using OCR.
     Args:
-        gridfs_doc_id: The ObjectId string of the file in GridFS (certificates bucket).
+        gridfs_doc_id: The ObjectId string of the file in GridFS.
+        bucket_name: The GridFS bucket name ("resumes" or "certificates").
     """
     try:
-        bucket = get_gridfs("certificates")
+        bucket = get_gridfs(bucket_name)
         grid_out = await bucket.open_download_stream(ObjectId(gridfs_doc_id))
         image_bytes = await grid_out.read()
         
@@ -59,7 +60,7 @@ async def ocr_extract_text(gridfs_doc_id: str) -> str:
         text = pytesseract.image_to_string(img)
         return text.strip() if text else "No text found via OCR."
     except Exception as e:
-        logger.error(f"OCR error: {str(e)}")
+        logger.error(f"OCR error on {bucket_name}: {str(e)}")
         return f"Error during OCR: {str(e)}"
 
 @tool

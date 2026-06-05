@@ -1,0 +1,21 @@
+meta {
+  name: Shortlist Student
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discover/shortlist
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{firebaseToken}}
+}
+
+body:json {
+  {
+    "student_uid": "{{testUid}}"
+  }
+}

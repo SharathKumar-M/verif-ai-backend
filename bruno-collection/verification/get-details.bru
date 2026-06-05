@@ -1,0 +1,15 @@
+﻿meta {
+  name: Get Verification Details
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/verification/{{verification_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{firebaseToken}}
+}
