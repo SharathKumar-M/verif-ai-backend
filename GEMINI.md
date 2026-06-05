@@ -431,12 +431,12 @@ services:
 
 
 ### Phase 4: Discovery
-- [ ] `services/discovery_service.py`
-- [ ] `schemas/profile.py` + `schemas/discover.py`
-- [ ] `api/v1/profile.py`
-- [ ] `api/v1/discover.py`
-- [ ] `api/v1/verification.py`
-- [ ] Bruno: profile + discover collections created
+- [x] `services/discovery_service.py`
+- [x] `schemas/profile.py` + `schemas/discover.py`
+- [x] `api/v1/profile.py`
+- [x] `api/v1/discover.py`
+- [x] `api/v1/verification.py`
+- [x] Bruno: profile + discover collections created
 
 ### Phase 5: Fake Data + Tests + Deploy
 - [ ] `scripts/seed_fake_data.py` (5 students + 2 recruiters + companies)

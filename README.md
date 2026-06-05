@@ -84,10 +84,8 @@ Full contract: `contracts/CONTRACT.md`
 |------|---------|
 | `GEMINI.md` | Gemini CLI agent context |
 | `AGENTS.md` | OpenCode agent context |
-| `PROMPTS.md` | Phase-by-phase build prompts |
 | `TESTING_GUIDE.md` | Bruno + pytest testing guide |
 | `contracts/CONTRACT.md` | API endpoint specification |
-| `REPO_SETUP.md` | Repo layout clarity |
 
 ---
 
